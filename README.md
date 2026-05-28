@@ -4,7 +4,7 @@
 
 I wanted to understand how second-hand markets actually price things. iPhones are a good test case: everyone knows the retail price, so you can measure real depreciation instead of guessing it.
 
-The dataset has ~2,100 eBay US listings across five generations (XR through 14 Pro Max). I cleaned it, explored it, and tried to answer one core question: what actually drives resale price?
+The dataset has 2,172 eBay US listings across five generations (XR through 14 Pro Max). I cleaned it, explored it, and tried to answer one core question: what actually drives resale price?
 
 ## What I found
 

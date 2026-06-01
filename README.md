@@ -1,21 +1,84 @@
-# Python eBay iPhone Resale — Price Analysis
+# iPhone Pricing Recommendation Engine
 
-## Why this project
+Live Demo: https://ebay-iphone-pricing-analysis-hefbg7u969edukpd7hfswg.streamlit.app/
 
-I wanted to understand how second-hand markets actually price things. iPhones are a good test case: everyone knows the retail price, so you can measure real depreciation instead of guessing it.
+## Overview
 
-The dataset has 2,172 eBay US listings across five generations (XR through 14 Pro Max). I cleaned it, explored it, and tried to answer one core question: what actually drives resale price?
+A simple pricing tool that estimates realistic listing prices for used iPhones based on historical eBay data.
 
-## What I found
+Users select:
 
-**Depreciation isn't linear.** The 11 Pro Max holds about 38% of its original value after 4 years — but the 14 Pro Max was still selling near retail ($1,019 vs $1,099 original). High demand, low supply right after the iPhone 15 launch.
+* Model
+* Storage
+* Condition
+* Carrier Status
 
-**Storage premiums are sticky.** People consistently pay more for 256GB/512GB — and that delta barely moves as the device ages.
+The application then suggests:
 
-**Condition keywords do exactly what you'd expect.** Listings with "cracked" or "broken" drop median price by 50-60%. "Mint" or "sealed" pull it back up. The title is basically a pricing signal.
+* Bargain Price
+* Fair Price
+* Premium Price
 
-**Outliers are everywhere.** Some sellers list at $2,500. Median beats average here, always.
+## Dataset
 
-## Stack
+Historical eBay listing data collected in November 2023.
 
-Python — pandas, seaborn, matplotlib, regex for parsing unstructured titles
+Models included:
+
+* iPhone XR
+* iPhone 11 Pro Max
+* iPhone 12 Pro Max
+* iPhone 13 Pro Max
+* iPhone 14 Pro Max
+
+After cleaning and preprocessing, the final dataset contained 843 listings.
+
+## Methodology
+
+Information extracted from listing titles:
+
+* Model
+* Storage Capacity
+* Condition
+* Carrier Status
+
+A Random Forest Regressor was trained to estimate market value.
+
+Performance:
+
+```text
+R² = 0.58
+```
+
+Price recommendations are generated using comparable listings:
+
+* Bargain Price → 20th percentile
+* Fair Price → Median price
+* Premium Price → 80th percentile
+
+When insufficient comparable listings are available (within ±10% of the predicted price), the model prediction is used as a fallback.
+
+## Example
+
+```text
+PRICE RECOMMENDATION
+--------------------
+
+Device: 14 PRO MAX 256GB | EXCELLENT | UNLOCKED
+
+Bargain: $895
+Fair:    $900
+Premium: $1007
+```
+
+## Tech Stack
+
+* Python
+* Pandas
+* NumPy
+* Scikit-Learn
+* Streamlit
+
+## Key Takeaway
+
+Comparable listings often provide more interpretable pricing recommendations than machine learning predictions alone. This project combines both approaches to estimate realistic marketplace prices for used iPhones.
